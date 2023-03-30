@@ -1,0 +1,95 @@
+1. SELECT DISTINCT Job FROM EmpTable;
+
+2.
+SELECT * FROM EmpTable ORDER BY Deptno ASC
+SELECT * FROM EmpTable ORDER BY Deptno DESC
+
+3.
+SELECT DISTINCT Job FROM EmpTable ORDER BY Job DESC
+
+4.
+SELECT * FROM EmpTable WHERE Hiredate(1981-01-01);
+
+5.
+SELECT Empno,Ename,Sal,Sal/30,12*Sal FROM EmpTable ORDER BY Sal ASC
+
+6.
+SELECT Empno,Ename,Sal FROM EmpTable WHERE Mgr='7369'
+
+7.
+SELECT * FROM EmpTable WHERE comm>Sal
+
+8.
+SELECT * FROM EmpTable WHERE job='CLERK' OR job='ANALYST' ORDER BY job DESC
+
+9.
+SELECT Ename FROM EmpTable WHERE 12*Sal BETWEEN 22000 AND 45000
+
+10.
+SELECT Ename FROM EmpTable WHERE Ename LIKE 'S%' AND length(Ename) = 5
+
+11.
+Select * from EmpTable where Empno not like '78%'
+
+12.
+Select * from EmpTable where Deptno='20' and Job ='CLERK' ;
+
+13.
+-->
+
+14.
+select Ename from EmpTable where Deptno=20 and Job in ( select distinct Job from EmpTable where Deptno=10)
+
+15.
+Select distinct * from EmpTable where Sal in(select Sal from EmpTable where Ename in ('FORD','SMITH'))
+and Ename not in ('FORD','SMITH') Order By Sal Desc ;
+
+16.
+SELECT * FROM emp WHERE Job IN(SELECT Job FROM EmpTable WHERE Ename IN('SMITH','ALLEN'))
+ AND Ename NOT IN('SMITH','ALLEN')
+
+17.
+SELECT * FROM EmpTable WHERE Deptno=20 AND Job IN(SELECT Job FROM emp WHERE Deptno=10)
+
+18.
+SELECT max(Sal) FROM EmpTable;
+
+19.
+SELECT * FROM EmpTable WHERE Sal IN (SELECT max(Sal) FROM EmpTable);
+
+20.
+SELECT SUM(Sal) FROM EmpTable WHERE Job='MANAGER'
+
+21.
+SELECT * FROM EmpTable WHERE Ename LIKE '%A%'
+
+22.
+SELECT * FROM EmpTable WHERE Sal IN (SELECT MIN(Sal) FROM EmpTable GROUP BY Job)
+ ORDER BY Sal ASC
+
+23.
+SELECT * FROM EmpTable WHERE Sal>(SELECT Sal FROM EmpTable WHERE Ename='BLAKE')
+
+24.
+SELECT Ename, Deptno, Job FROM EmpTable WHERE Deptno = (SELECT Deptno FROM dept WHERE loc = 'NEW YORK')
+
+25.
+create procedure Records @dname varchar(255)
+AS
+select * from EmpTable where Ename= @dname;
+
+26.
+ALTER TABLE student ADD Pin bigint
+
+27.
+ALTER TABLE StudentTable MODIFY COLUMN Sname varchar(40);
+CREATE OR REPLACE TRIGGER  salarytrigger
+AFTER INSERT OR UPDATE OR DELETE ON EmpTable;
+ FOR EACH ROW
+ DECLARE
+ 
+ BEGIN
+ UPDATE THEN
+ ACTION ='update';
+ INSERT INTO EmpLogTable VALUES(USER,:NEW.New_salary);
+ END;
